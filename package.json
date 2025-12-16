@@ -1,0 +1,24 @@
+{
+  "name": "crud_students_isomorphic",
+  "version": "1.0.0",
+  "description": "Aplicació CRUD d'estudiants amb Express i LowDB",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "build": "echo 'Build completed'"
+  },
+  "keywords": [
+    "crud",
+    "students",
+    "express",
+    "lowdb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "lowdb": "^7.0.1"
+  }
+}

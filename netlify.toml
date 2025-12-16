@@ -1,0 +1,7 @@
+[build]
+  command = "echo 'Frontend estàtic'"
+  publish = "public"
+
+[dev]
+  directory = "public"
+  functions = "functions"
