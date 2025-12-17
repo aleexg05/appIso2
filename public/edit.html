@@ -61,6 +61,8 @@
     </div>
 
     <script>
+        // Configuració de l'API (usa rutas relativas)
+        const API_URL = '';
         let studentId = null;
 
         function showMessage(msg, type) {
@@ -80,7 +82,7 @@
                     return;
                 }
 
-                const response = await fetch(`/api/students/${studentId}`);
+                const response = await fetch(`${API_URL}/api/students/${studentId}`);
                 if (!response.ok) throw new Error('Error carregant estudiant');
 
                 const student = await response.json();
@@ -108,7 +110,7 @@
             const address = document.getElementById('address').value;
 
             try {
-                const response = await fetch(`/api/students/${studentId}`, {
+                const response = await fetch(`${API_URL}/api/students/${studentId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

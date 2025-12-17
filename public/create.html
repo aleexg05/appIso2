@@ -56,10 +56,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-        // Configuració de l'API (local vs producció)
-        const API_URL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000'
-            : 'https://crud-students-api.onrender.com';
+        // Configuració de l'API (usa rutas relativas)
+        const API_URL = '';
 
         function showMessage(msg, type) {
             const messageEl = document.getElementById('message');
