@@ -8,6 +8,7 @@ RUN npm install --omit=dev
 # Copiar código necesario
 COPY public ./public
 COPY server.js ./server.js
+COPY db.json ./db.json
 
 ENV NODE_ENV=production
 EXPOSE 3000
