@@ -61,7 +61,6 @@
     </div>
 
     <script>
-        // Configuració de l'API (usa rutas relativas)
         const API_URL = '';
         let studentId = null;
 
@@ -73,7 +72,6 @@
 
         async function loadStudent() {
             try {
-                // Obtén el paràmetre 'id' de la URL
                 const params = new URLSearchParams(window.location.search);
                 studentId = parseInt(params.get('id'));
 
@@ -87,12 +85,10 @@
 
                 const student = await response.json();
 
-                // Omple els camps del formulari
                 document.getElementById('name').value = student.name;
                 document.getElementById('email').value = student.email;
                 document.getElementById('address').value = student.address;
 
-                // Mostra el formulari i amaga el carregant
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('studentForm').style.display = 'block';
             } catch (error) {
@@ -131,7 +127,6 @@
             }
         });
 
-        // Carrega les dades de l'estudiant quan la pàgina es carrega
         loadStudent();
     </script>
 </body>

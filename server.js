@@ -11,29 +11,19 @@ const app = express();
 const port = process.env.PORT || 3000;
 const dbFile = join(__dirname, 'db.json');
 
-// --- Configuració de lowdb (Adaptador i Inicialització) ---
 const adapter = new JSONFile(dbFile);
-const db = new Low(adapter, { students: [] }); // Valor per defecte
-
-// Middleware
+const db = new Low(adapter, { students: [] });
+ 
 app.use(express.json());
-
-// CORS headers para permitir peticiones desde cualquier origen
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-
-// Serveix fitxers estàtics des de la carpeta 'public'
 app.use(express.static(join(__dirname, 'public'))); 
-
-// **Funció d'inicialització de la base de dades**
-// Llegeix el fitxer db.json i escriu els valors per defecte si està buit.
 async function initializeDB() {
     await db.read();
-    // Aquesta línia assegura que `db.data` tingui la propietat `students` si el fitxer és nou/buit.
     db.data ||= { students: [] }; 
     await db.write();
 }
@@ -41,16 +31,12 @@ async function initializeDB() {
 initializeDB().then(() => {
     console.log("✅ Base de dades LowDB inicialitzada.");
     
-    // **Rutes API**
-    
-    // 1. Obtindre tots els estudiants
     app.get('/api/students', async (req, res) => {
-        await db.read(); // Sempre llegeix abans de llegir dades per obtenir l'últim estat
+        await db.read();
         const students = db.data.students;
         res.json(students);
     });
 
-    // 2. Afegir un nou estudiant (ID amb Timestamp)
     app.post('/api/students', async (req, res) => {
         const { name, email, address } = req.body;
         if (!name || !email || !address) {
@@ -58,7 +44,6 @@ initializeDB().then(() => {
         }
 
         const newStudent = {
-            // Utilitzem Date.now() com a ID (serà un nombre)
             id: Date.now(), 
             name: name,
             email: email,
@@ -67,12 +52,11 @@ initializeDB().then(() => {
 
         await db.read();
         db.data.students.push(newStudent);
-        await db.write(); // Escriu la base de dades amb el nou estudiant
+        await db.write();
 
         res.status(201).json(newStudent);
     });
 
-    // 3. Obtindre un estudiant per ID
     app.get('/api/students/:id', async (req, res) => {
         const studentId = parseInt(req.params.id);
         await db.read();
@@ -85,9 +69,7 @@ initializeDB().then(() => {
         res.json(student);
     });
 
-    // 4. Actualitzar un estudiant
     app.put('/api/students/:id', async (req, res) => {
-        // L'ID és un número, assegura't de convertir-lo de la cadena de paràmetres
         const studentId = parseInt(req.params.id); 
         const { name, email, address } = req.body;
 
@@ -98,7 +80,6 @@ initializeDB().then(() => {
             return res.status(404).json({ error: 'Estudiant no trobat.' });
         }
 
-        // Actualitza l'estudiant
         if (name !== undefined) db.data.students[studentIndex].name = name;
         if (email !== undefined) db.data.students[studentIndex].email = email;
         if (address !== undefined) db.data.students[studentIndex].address = address;
@@ -108,14 +89,12 @@ initializeDB().then(() => {
         res.json(db.data.students[studentIndex]);
     });
 
-    // 5. Eliminar un estudiant
     app.delete('/api/students/:id', async (req, res) => {
         const studentId = parseInt(req.params.id);
 
         await db.read();
         const initialLength = db.data.students.length;
         
-        // Filtra l'estudiant a eliminar
         db.data.students = db.data.students.filter(s => s.id !== studentId);
 
         if (db.data.students.length === initialLength) {
@@ -126,12 +105,10 @@ initializeDB().then(() => {
         res.status(204).send();
     });
 
-    // Serveix l'index.html
     app.get('/', (req, res) => {
         res.sendFile(join(__dirname, 'public', 'index.html'));
     });
 
-    // Inicia el servidor
     app.listen(port, () => {
         console.log(`🚀 Servidor en marxa a http://localhost:${port}`);
     });
