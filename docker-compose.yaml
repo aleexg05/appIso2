@@ -6,7 +6,10 @@ services:
     environment:
       - NODE_ENV=production
     ports:
-      - "3000:3000"               # host:contenidor
+      - "1234:3000"               # host:contenidor
     volumes:
-      - ./db.json:/app/db.json     # només persistim les dades
+      - db-data:/app               # persistir tota la carpeta /app
     restart: unless-stopped
+
+volumes:
+  db-data:

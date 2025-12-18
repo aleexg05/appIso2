@@ -109,7 +109,7 @@ initializeDB().then(() => {
         res.sendFile(join(__dirname, 'public', 'index.html'));
     });
 
-    app.listen(port, () => {
-        console.log(`🚀 Servidor en marxa a http://localhost:${port}`);
+    app.listen(port, '0.0.0.0', () => {
+        console.log(`🚀 Servidor en marxa a http://0.0.0.0:${port}`);
     });
 });
